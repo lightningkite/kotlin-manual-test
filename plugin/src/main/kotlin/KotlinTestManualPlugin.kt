@@ -11,7 +11,9 @@ import java.security.MessageDigest
 // Test Note
 
 class KotlinTestManualPlugin : Plugin<Project> {
-    val regex = Regex(""" assertManualReview\s*\(\s*(?:file\s*=\s*)?"([a-zA-Z.0-9_-]*)"\s*,\s*(?:currentHash\s*=\s*)?"([a-zA-Z.0-9_-]*)" """.trim())
+    val regex = Regex(""" assertManualReview\s*\(\s*(?:file\s*=\s*)?"([a-zA-Z.0-9_\-\/]*)"\s*,\s*(?:currentHash\s*=\s*)?"([a-zA-Z.0-9_-]*)" """.trim())
+    val lineComments = Regex(""" \/\/[^\n]+ """.trim())
+    val multilineComments = Regex(""" (\/\*\*)(.|\n)+?(\*\/) """.trim())
     override fun apply(project: Project) = with(project) {
         tasks.create("testUpdateHashes") {
             group = "verification"
@@ -31,20 +33,23 @@ class KotlinTestManualPlugin : Plugin<Project> {
                     .filter { it.name.contains("test", true) }
                     .flatMap { it.walkTopDown() }
                     .filter { it.extension == "kt" }
-                    .forEach {
-                        println("Updating file $it...")
-                        it.readText().replace(regex) { it ->
-                            println("  MATCH ${it.value}")
-                            val fileChecksum = filePaths.find { f -> f.endsWith(it.groupValues[1]) }
-                                ?.let { HashUtils.getCheckSumFromFile(MessageDigest.getInstance("SHA-1"), it) }
-                                ?: "N/A"
+                    .forEach { file ->
+                        file.readText().replace(regex) { it ->
+                            val fileChecksum = filePaths.filter { f -> f.endsWith(it.groupValues[1]) }.singleOrNull()
+                                ?.let {
+                                    val rawContent = it.readText().replace(lineComments, "").replace(multilineComments, "").filter { !it.isWhitespace() }
+                                    println("Raw: $rawContent")
+                                    val digested = MessageDigest.getInstance("SHA-1").digest(rawContent.toByteArray())
+                                    HashUtils.encodeHex(digested, toLowerCase = true).let(::String)
+                                }
+                                ?: throw IllegalStateException("File $file references ${it.groupValues[1]}, which is either vague or non-existent.")
                             it.value.substring(
                                 0,
                                 it.groups[2]!!.range.start - it.range.start,
                             ) + fileChecksum + it.value.substring(
                                 it.groups[2]!!.range.endInclusive - it.range.start + 1
                             )
-                        }.let(it::writeText)
+                        }.let(file::writeText)
                     }
             }
 

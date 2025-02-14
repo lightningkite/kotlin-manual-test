@@ -1,4 +1,5 @@
 import com.lightningkite.deployhelpers.*
+import com.lightningkite.testing.manual.KotlinTestManualPlugin
 import com.vanniktech.maven.publish.SonatypeHost
 
 plugins {
@@ -8,6 +9,7 @@ plugins {
     id("com.vanniktech.maven.publish") version "0.30.0"
     id("org.jetbrains.dokka")
 }
+apply<KotlinTestManualPlugin>()
 
 gradlePlugin {
     plugins {
@@ -23,6 +25,7 @@ repositories {
 }
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin-api:2.1.0")
+    testImplementation(project(":runtime"))
     testImplementation("junit:junit:4.13.2")
 }
 tasks.validatePlugins {

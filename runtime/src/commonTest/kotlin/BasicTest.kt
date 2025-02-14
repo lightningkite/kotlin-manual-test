@@ -6,9 +6,9 @@ class BasicTest {
     @Test
     fun test() {
         assertManualReview(
-            file = "Main.kt",
-            currentHash = "37db443d0364da6977630b6b1e9f84a27f426f7e",
-            reviewedHash = "37db443d0364da6977630b6b1e9f84a27f426f7e",
+            file = "commonMain/kotlin/Main.kt",
+            currentHash = "cf2e8806521a60fdbda49ab5845fa580be6ecd6c",
+            reviewedHash = "cf2e8806521a60fdbda49ab5845fa580be6ecd6c",
             whatToTest = """
                 Just that it works, right here.
             """.trimIndent()

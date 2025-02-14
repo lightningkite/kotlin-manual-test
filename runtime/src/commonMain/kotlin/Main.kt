@@ -5,6 +5,12 @@ import kotlin.reflect.KClass
 import kotlin.reflect.KFunction
 import kotlin.test.assertEquals
 
+/**
+ * Throws if the file changes until the [reviewedHash] is updated.
+ * WARNING: For this to work, you can't put comments in the function call or rearrange the arguments!
+ * The preprocessor would miss the declaration and wouldn't update it.
+ * [file] The suffix of the file to check the hash of.  If this is vague, the pre-processor will warn you.
+ */
 public fun assertManualReview(
     file: String,
     currentHash: String = "",
@@ -17,7 +23,3 @@ public fun assertManualReview(
          $whatToTest
     """.trimIndent())
 }
-
-// assertManualReview("SomeFile.kt", "fawue3ahfasdfawe", "fjiwejifiof2ji2",
-// assertManualReview(file = "SomeFile.kt", reviewedHash = "fawue3ahfasdfawe", "fjiwejifiof2ji2",
-// Change to the file 2

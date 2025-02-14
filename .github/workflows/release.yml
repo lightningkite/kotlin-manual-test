@@ -38,6 +38,9 @@ jobs:
       - name: Test
         run: ./gradlew allTests
 
+      - name: Test
+        run: ./gradlew test
+
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
