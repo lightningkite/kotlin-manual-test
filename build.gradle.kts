@@ -1,58 +1,37 @@
-import com.lightningkite.deployhelpers.lk
 
-plugins {
-    kotlin("multiplatform") version "2.1.0"
-    id("com.vanniktech.maven.publish") version "0.30.0"
-}
+group = "com.lightningkite.kiteui"
+version = "1.0-SNAPSHOT"
+
 buildscript {
     repositories {
         mavenLocal()
         maven("https://lightningkite-maven.s3.us-west-2.amazonaws.com")
+        google()
+        mavenCentral()
+        maven("https://jitpack.io")
     }
     dependencies {
-        classpath("com.lightningkite:lk-gradle-helpers:1.1.1")
+        classpath("com.lightningkite:lk-gradle-helpers:1.0.8")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:2.1.0")
+        classpath("org.jetbrains.kotlin:kotlin-serialization:2.1.0")
+        classpath("org.jetbrains.dokka:dokka-gradle-plugin:2.0.0")
+        classpath("com.android.tools.build:gradle:8.5.2")
     }
 }
-
-group = "com.lightningkite"
-version = "1.0-SNAPSHOT"
-
-val lk = lk {}
-
-kotlin {
-    jvmToolchain(17)
-    explicitApi()
-    applyDefaultHierarchyTemplate()
-    jvm {
-        compilerOptions.jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8)
+allprojects {
+    group = "com.lightningkite.kiteui"
+    repositories {
+        mavenLocal()
+        maven("https://lightningkite-maven.s3.us-west-2.amazonaws.com")
+        maven("https://jitpack.io")
+        google()
+        mavenCentral()
     }
-    js(IR) {
-        browser()
-    }
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
-    macosX64()
-    macosArm64()
-
-    sourceSets {
-        all {
-            languageSettings.optIn("kotlinx.serialization.ExperimentalSerializationApi")
-        }
-        val commonMain by getting {
-            dependencies {
-                implementation(kotlin("test"))
-            }
-            kotlin {
-                srcDir(file("build/generated/ksp/common/commonMain/kotlin"))
-            }
-        }
-        val commonTest by getting {
-            dependencies {
-            }
-            kotlin {
-                srcDir(file("build/generated/ksp/common/commonTest/kotlin"))
-            }
-        }
-    }
+}
+repositories {
+    mavenLocal()
+    maven("https://lightningkite-maven.s3.us-west-2.amazonaws.com")
+    maven("https://jitpack.io")
+    google()
+    mavenCentral()
 }
