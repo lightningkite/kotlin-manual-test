@@ -25,7 +25,7 @@ repositories {
 }
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin-api:2.1.0")
-    testImplementation(project(":runtime"))
+    testImplementation(project(":kotlin-test-manual-runtime"))
     testImplementation("junit:junit:4.13.2")
 }
 tasks.validatePlugins {

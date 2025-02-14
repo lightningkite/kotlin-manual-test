@@ -3,5 +3,5 @@ plugins {
 }
 rootProject.name = "kotlin-test-manual"
 
-include(":runtime")
-include(":plugin")
+include(":kotlin-test-manual-plugin")
+include(":kotlin-test-manual-runtime")
