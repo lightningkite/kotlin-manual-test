@@ -1,5 +1,5 @@
 
-group = "com.lightningkite.kiteui"
+group = "com.lightningkite.testing"
 version = "1.0-SNAPSHOT"
 
 buildscript {
@@ -19,7 +19,7 @@ buildscript {
     }
 }
 allprojects {
-    group = "com.lightningkite.kiteui"
+    group = "com.lightningkite.testing"
     repositories {
         mavenLocal()
         maven("https://lightningkite-maven.s3.us-west-2.amazonaws.com")
