@@ -2,7 +2,6 @@ package com.lightningkite.testing.manual
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 import java.io.File
 import java.io.FileInputStream
 import java.io.InputStream
@@ -18,7 +17,7 @@ class KotlinTestManualPlugin : Plugin<Project> {
         tasks.create("testUpdateHashes") {
             group = "verification"
             val t = this
-            tasks.matching { it is KotlinCompilationTask<*> && it.name.contains("test", true) }.configureEach {
+            tasks.matching { it.name.contains("test", true) && it.name.contains("compile", true) && it.name.contains("kotlin", true) }.configureEach {
                 this.dependsOn(t)
             }
             doLast {
