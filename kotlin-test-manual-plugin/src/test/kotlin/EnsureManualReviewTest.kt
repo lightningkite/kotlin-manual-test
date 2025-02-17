@@ -6,8 +6,8 @@ class EnsureManualReviewTest {
     fun test() {
         assertManualReview(
             file = "KotlinTestManualPlugin.kt",
-            currentHash = "84990f41362886f80cf945119412d295deb24cd4",
-            reviewedHash = "84990f41362886f80cf945119412d295deb24cd4",
+            currentHash = "48d75a4839ba4e308738d18c5fea68ab15556251",
+            reviewedHash = "48d75a4839ba4e308738d18c5fea68ab15556251",
             whatToTest = """
                 We haven't written tests for this yet.  As such, you need to ensure the following:
                 - Comments and whitespace are ignored when determining the hash
